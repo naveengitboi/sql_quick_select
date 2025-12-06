@@ -22,10 +22,10 @@ body{
 .navbar
 {
     display: flex;
-    justify-content: space-around;
+    gap: 20px;
     align-items: center;
     padding: 1rem;
-    display: none;
+    /* display: none; */
 }
 .navbar ul
 {
@@ -45,6 +45,7 @@ body{
     border-radius: 0.5rem;
     cursor: pointer;
 }
+
 
 .notebook
 {
@@ -100,10 +101,12 @@ input, textarea
   padding: 0.5rem 1rem;
   border: 2px solid gray;
   border-radius: 0.25rem;
+  resize: none;
 }
 .inputsSection{
-  padding: 0 1rem;
-  max-height: 100vh;
+  padding: 2rem 1rem;
+  max-height: 95vh;
+  min-height: 95vh;
   overflow-y: scroll;
   width: 100%;
   /* border: 2px solid red; */
@@ -115,6 +118,16 @@ input, textarea
 }
 .inputsSection::-webkit-scrollbar-thumb{
   background-color: rgb(54, 54, 54);
+}
+
+.activeTab
+{
+  display: block;
+}
+
+.inActiveTab
+{
+  display: none;
 }
 
 
@@ -172,6 +185,7 @@ input, textarea
   cursor: pointer;
   border: none;
   border-radius: 0.25rem;
+  color: white;
 }
 .generateBtn{
   background-color: orangered;
@@ -191,8 +205,8 @@ input, textarea
 {
   min-width: 100%;
   max-width: 100%;
-  min-height: 200px;
-
+  min-height: 500px;
+  
 }
 .checkBoxes
 {
@@ -206,6 +220,19 @@ input, textarea
 }
 
 
+/* playground tab */
+.comparisions{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.comparisions textarea{
+  min-height: 60vh;
+}
+
+.compareBtn{
+  background: orangered;
+}
+
 /* result container */
 .resultContianer{
   padding: 1rem;
@@ -216,6 +243,7 @@ input, textarea
   grid-template-columns: repeat(1, 1fr);
   grid-template-rows: 1.5fr 1fr;
   gap: 10px;
+  max-height: 95vh;
 }
 .outputsTxt{
   position: relative;
@@ -230,6 +258,7 @@ input, textarea
   height: 100%;
   padding: 2.5rem 0.25rem;
   border: none;
+  resize: none;
   
 }
 .outputsTxt textarea::-webkit-scrollbar{

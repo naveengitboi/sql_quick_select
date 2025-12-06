@@ -12,75 +12,84 @@
   <p class="snackbar">Successfully Copied</p>
   <div class="wrapper">
     <div class="navbar">
-      <div class="logo"></div>
-      <ul>
-        <li>Add Query</li>
-        <li>Delete Query</li>
-        <li>Print</li>
-      </ul>
+      <button class="tabs" data-tab="sql">SQL</button>
+      <button class="tabs" data-tab="regex">Regex PG</button>
     </div>
     <div class="heroSection">
       <div class="inputsSection">
-        <div class="inputsContainer">
-          <div class="input">
-            <p>DB Name</p>
-            <input class="dbInput" type="text" placeholder="eg: MART_DB" name="db"></input>
-          </div>
-          <div class="input">
-            <p>Schema Name</p>
-            <input class="schemaInput" type="text" placeholder="eg: RAW_SCHEMA" name="schema"></input>
-          </div>
-          <div class="input">
-            <p>Table Name</p>
-            <input class="tableInput" type="text" placeholder="eg: CUSTOMERS" name="table"></input>
-          </div>
-          <div class="input">
-            <p>Append Data Type</p>
-            <input class="appendDataType" type="text" placeholder="eg: varchar(1661717)" name="dataType"></input>
-          </div>
-          <div class="input">
-            <p>Columns</p>
-            <textarea class="columnsInput" type="text" placeholder="Columns" name="columnsList"></textarea>
-          </div>
-          <div class="input">
-            <p>Values</p>
-            <textarea class="valuesInput" type="text" placeholder="Values In format" name="values"></textarea>
-          </div>
-          <div class="input userOperations">
-            <div class="">
-              <p for="insert">Insert into?</p>
-              <input id="insert" class="operations" type="checkbox" name="insert"></input>
+        <div class="sqlTab activeTab" data-tab="sql">
+          <div class="inputsContainer">
+            <div class="input">
+              <p>DB Name</p>
+              <input class="dbInput" type="text" placeholder="eg: MART_DB" name="db"></input>
             </div>
-            <div class="">
-              <p for="newLine">new line?</p>
-              <input id="newLine" class="operations" type="checkbox" name="newLine"></input>
+            <div class="input">
+              <p>Schema Name</p>
+              <input class="schemaInput" type="text" placeholder="eg: RAW_SCHEMA" name="schema"></input>
+            </div>
+            <div class="input">
+              <p>Table Name</p>
+              <input class="tableInput" type="text" placeholder="eg: CUSTOMERS" name="table"></input>
+            </div>
+            <div class="input">
+              <p>Append Data Type</p>
+              <input class="appendDataType" type="text" placeholder="eg: varchar(1661717)" name="dataType"></input>
+            </div>
+            <div class="input">
+              <p>Columns</p>
+              <textarea class="columnsInput" type="text" placeholder="Columns" name="columnsList"></textarea>
+            </div>
+            <div class="input">
+              <p>Values</p>
+              <textarea class="valuesInput" type="text" placeholder="Values In format" name="values"></textarea>
+            </div>
+            <div class="input userOperations">
+              <div class="">
+                <p for="insert">Insert into?</p>
+                <input id="insert" class="operations" type="checkbox" name="insert"></input>
+              </div>
+              <div class="">
+                <p for="newLine">new line?</p>
+                <input id="newLine" class="operations" type="checkbox" name="newLine"></input>
+              </div>
+            </div>
+            <div class="input">
+              <p>Seperator</p>
+              <input class="seperator" type="text" placeholder="eg: , | ' ' | any other" name="seperator"></input>
             </div>
           </div>
-          <div class="input">
-            <p>Seperator</p>
-            <input class="seperator" type="text" placeholder="eg: , | ' ' | any other" name="seperator"></input>
-          </div>
-        </div>
-        <button class="button generateBtn">Generate SQL</button>
+          <button class="button generateBtn">Generate SQL</button>
 
-        <div class="replaceTxtSection">
-          <textarea name="content" class="replaceTxt replaceInput" id="" placeholder="Enter Txt" ></textarea>
-          <div class="replaceActions">
-            <input type="text" placeholder="text" class="replaceSource replaceInput" name="source">
-            <input type="text" placeholder="Replace With" class="replaceWith replaceInput" name="target">
-            <div class="checkBoxes">
-              <div class="checkboxOuter">
-                <label for="case">Match</label>
-                <input type="checkbox" id="case" checked class="replaceChecks" name="caseSensitive">
+          <div class="replaceTxtSection">
+            <textarea name="content" class="replaceTxt replaceInput" id="" placeholder="Enter Txt"></textarea>
+            <div class="replaceActions">
+              <input type="text" placeholder="Write Regex" class="replaceSource replaceInput" name="source">
+              <input type="text" placeholder="Replace With" class="replaceWith replaceInput" name="target">
+              <div class="checkBoxes">
+                <div class="checkboxOuter">
+                  <label for="case">a == A</label>
+                  <input type="checkbox" id="case" checked class="replaceChecks" name="caseSensitive">
+                </div>
+                <div class="checkboxOuter">
+                  <label for="searching">Search?</label>
+                  <input type="checkbox" id="searching" class="replaceChecks" name="search">
+                </div>
               </div>
-              <div class="checkboxOuter">
-                <label for="global">global</label>
-                <input type="checkbox" id="global" checked class="replaceChecks" name="global">
-              </div>
+              <button class="replaceBtn button">Replace</button>
             </div>
-            <button class="replaceBtn button">Replace</button>
           </div>
         </div>
+
+        <div class="profilingTab inActiveTab" data-tab="regex">
+          <div class="comparisions">
+            <textarea name="compSource" id="" class="compareInputs"></textarea>
+            <textarea name="compTarget" id="" class="compareInputs"></textarea>
+          </div>
+          <div class="compActions">
+            <button class="button compareBtn">Compare</button>
+          </div>
+        </div>
+
       </div>
       <div class="resultContianer">
         <div class="outputsTxt">

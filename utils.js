@@ -57,3 +57,34 @@ function clearContent(ele){
     }
     return;
 }
+
+
+function getFrequency(container){
+    const hMap = new Map();
+    for(item of container){
+        hMap.set(item, hMap.get(item) +1 || 1);
+    }
+    return hMap;
+}
+
+function removeDuplicates(container){
+    const hMap = new Map();
+    for(item of container){
+        hMap.set(item, true);
+    }
+    return Array.from(hMap.keys())
+}
+
+function compareMaps(sourceMap, targetMap, considerDuplicates){
+    const presentInTarget = "";
+    const missingFromTarget = "";
+    for(let [key, val] of sourceMap){
+        if(targetMap.has(key)){
+            presentInTarget += (key) + "\n";
+        }else{
+            missingFromTarget += (key) + "\n";
+        }
+    }
+
+    return [presentInTarget, missingFromTarget];
+}

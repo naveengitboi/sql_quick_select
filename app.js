@@ -1,10 +1,31 @@
 const notebook = document.querySelector(".notebook");
 
+
+// tabs
+const tabs = document.querySelectorAll('.tabs');
+const inputsSection = document.querySelector('.inputsSection');
+console.log(inputsSection);
+
+const tabsHandler = (currentTab) => {
+  Array.from(inputsSection.children).forEach((child) => {
+    if (child["dataset"]["tab"] == currentTab["dataset"]["tab"]) {
+      child.classList.remove("inActiveTab");
+      child.classList.add("activeTab");
+    } else {
+      child.classList.remove("activeTab");
+      child.classList.add("inActiveTab");
+    }
+  })
+}
+
+tabs.forEach((tab) => {
+  tab.addEventListener('click', () => tabsHandler(tab));
+})
+
 // form
 const inputEle = document.querySelectorAll(".input");
 const generateBtn = document.querySelector(".generateBtn");
 const operations = document.querySelectorAll(".operations");
-
 const output = document.querySelector(".output");
 
 //replace ele
@@ -15,6 +36,27 @@ const replaceCheckBoxes = document.querySelectorAll(".replaceChecks");
 // outputactions btn
 const copyBtns = document.querySelectorAll(".copyBtn");
 const cutBtns = document.querySelectorAll(".cutBtn");
+
+
+// diff checkers
+const compInputs = document.querySelectorAll('.compareInputs');
+const compareBtn = document.querySelector('.compareBtn');
+
+const compareHandler = () => {
+  compInputs.forEach((ipt) => {
+    const ipts = ipt.value.split("\n");
+    console.log("diff ipts ", ipts);
+    let content = "";
+    for(let item of ipts){
+      content += `<div> ${item} </div>`
+    }
+    ipt.value = content;
+  })
+
+}
+
+compareBtn.addEventListener('click', compareHandler);
+
 
 //copy functionality
 
@@ -66,15 +108,27 @@ const replaceTxtHandler = (e) => {
     );
     return;
   }
-  let parem = "";
-  if (input.global) {
-    parem += "g";
-  }
+  let parem = "g";
   if (input.caseSensitive) {
     parem += "i";
   }
+  if (input.search) {
+    const pattern = new RegExp(input["source"], parem);
+    const replaceList = [...input["content"].matchAll(pattern)];
+    console.log("replace", replaceList);
+    let searchResult = "";
+    for (let i = 0; i < replaceList.length; i++) {
+      searchResult += replaceList[i];
+      if (i != replaceList.length - 1) {
+        searchResult += "\n";
+      }
+    }
+    output.value = searchResult;
+    return;
+  }
   const pattern = new RegExp(input["source"], parem);
-  const replaceResult = input["content"].replace(pattern, input["target"]);
+  const replaceResult = input["content"].replaceAll(pattern, input["target"]);
+  console.log(replaceResult);
   output.value = replaceResult;
   return;
 };
