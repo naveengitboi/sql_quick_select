@@ -19,30 +19,36 @@ body{
   overflow: hidden;
   padding: 0.25rem;
 }
-.navbar
+/* .navbar
 {
     display: flex;
     gap: 20px;
     align-items: center;
     padding: 1rem;
-    /* display: none; */
-}
-.navbar ul
+} */
+.navbar
 {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0.5rem 0;
 }
-.navbar ul li
+button{
+  border: none;
+  outline: none;
+  border-radius: 0.25rem;
+}
+.navbar button
 {
-    padding: 0.85rem 1rem;
+    padding: 0.5rem 1rem;
     list-style: none;
-    margin:0 0.85rem;
+    margin:0 0.5rem;
+    background-color: orangered;
+    
 }
-.navbar ul li:hover
+.navbar button:hover
 {
-    background-color: rgba(135, 207, 235, 0.432);
-    border-radius: 0.5rem;
+      background-color: rgb(210, 56, 0);
     cursor: pointer;
 }
 
@@ -232,6 +238,158 @@ input, textarea
 .compareBtn{
   background: orangered;
 }
+
+
+/* Maker Tab */
+
+.makerTab
+{
+  /* border: 1px solid red; */
+}
+
+.makerTab .templateInput
+{
+  width: 100%;
+  min-height: 200px;
+  max-height: 250px;
+ 
+}
+
+.repInputContainer
+{
+  max-height: 500px;
+  overflow-y: scroll;
+  padding: 10px;
+  border: 2px solid rgb(41, 41, 41);
+  border-radius: 0.5rem;
+}
+
+.repInputContainer::-webkit-scrollbar
+{
+  width: 8px;
+  border-radius: 2rem;
+}
+
+.repInputContainer::-webkit-scrollbar-track {
+    background: #272727;
+    border-radius: 2rem;
+}
+
+.repInputContainer::-webkit-scrollbar-thumb {
+   background: #888;
+   border-radius: 2rem;
+}
+
+.repInputContainer::-webkit-scrollbar-thumb:hover {
+   background: #555;
+}
+
+.repInputContainer .repInput
+{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 100px);
+  gap: 10px;
+  margin: 10px 0;
+  position: relative;
+  border-bottom: 2px solid rgb(53, 53, 53);
+  padding-bottom: 10px;
+  
+}
+
+.idTagName
+{
+  --size:20px;
+  position: absolute;
+  left: -5px;
+  top: -5px;
+  color: rgb(174, 174, 174);
+  font-size: 0.85rem;
+  font-weight: bold;
+  background-color: rgb(57, 57, 57);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.repInputDelete{
+  --size:30px;
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: 2px solid rgb(255, 84, 84);
+  cursor: pointer;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 0.25rem;
+  font-size: 0.8rem;
+  
+}
+
+.repInputDelete svg
+{
+  color: rgb(255, 84, 84);
+  width: 1rem;
+}
+
+
+.repInput:hover .repInputDelete
+{
+  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.repInput .variableInput
+{
+  grid-row: span 3;
+}
+.repInput .variableTxtContainer
+{
+  grid-column: span 3;
+  grid-row: span 4;
+  
+}
+
+.variableTxtContainer
+{
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+}
+
+.variableTxtActions
+{
+  margin: 10px 0;
+}
+.variableTxtActions .addLineBreakerBtn{
+  background-color: rgb(164, 21, 21);
+}
+
+
+.addVariableBtn
+{
+  background-color: rgb(39, 140, 39);
+  color: black;
+}
+
+.makerActionContainer{
+  margin: .85rem 0;
+}
+.makerActionBtn
+{
+  border: 2px solid orangered;
+  padding: 1rem 2.5rem;
+}
+
+
+
+
 
 /* result container */
 .resultContianer{

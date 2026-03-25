@@ -14,10 +14,11 @@
     <div class="navbar">
       <button class="tabs" data-tab="sql">SQL</button>
       <button class="tabs" data-tab="regex">Regex PG</button>
+      <button class="tabs" data-tab="maker">Maker</button>
     </div>
     <div class="heroSection">
       <div class="inputsSection">
-        <div class="sqlTab activeTab" data-tab="sql">
+        <div class="sqlTab inActiveTab" data-tab="sql">
           <div class="inputsContainer">
             <div class="input">
               <p>DB Name</p>
@@ -90,7 +91,60 @@
           </div>
         </div>
 
+         <div class="makerTab activeTab" data-tab="maker">
+          <div class="template_creator">
+            <textarea name="template" id="" class="templateInput" placeholder="Prepare Template here"></textarea>
+            <!-- <input type="text" name="times" placeholder="Times?"> -->
+            
+            <div class="repInputContainer">
+              <div class="repInput">
+                 <p class="idTagName">${idTag}</p>
+        <textarea name="variableInput" class="variableInput" 
+            placeholder="eg: [\${variable_input}, \${replace(', '')}]"></textarea>
+
+        <div class="variableTxtContainer" >
+            <textarea name="transformerTxt" class="variableTxt" placeholder="Paste here"></textarea>
+
+            <div class="variableTxtActions">
+                <button class="button addLineBreakerBtn">
+                    Add Line Break
+                </button>
+                <input type="text" name="customeSeperator" class="customeSeperator" />
+            </div>
+        </div>
+        
+
+        <div class="repInputDelete">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                viewBox="0 0 24 24" fill="currentColor"
+                class="icon icon-tabler icons-tabler-filled icon-tabler-trash-x">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M20 6a1 1 0 0 1 .117 1.993l-.117 .007h-.081l-.919 11a3 3 0 0 1 -2.824 2.995l-.176 .005h-8c-1.598 0 -2.904 -1.249 -2.992 -2.75l-.005 -.167l-.923 -11.083h-.08a1 1 0 0 1 -.117 -1.993l.117 -.007h16zm-9.489 5.14a1 1 0 0 0 -1.218 1.567l1.292 1.293l-1.292 1.293l-.083 .094a1 1 0 0 0 1.497 1.32l1.293 -1.292l1.293 1.292l.094 .083a1 1 0 0 0 1.32 -1.497l-1.292 -1.293l1.292 -1.293l.083 -.094a1 1 0 0 0 -1.497 -1.32l-1.293 1.292l-1.293 -1.292l-.094 -.083z" />
+                <path d="M14 2a2 2 0 0 1 2 2a1 1 0 0 1 -1.993 .117l-.007 -.117h-4l-.007 .117a1 1 0 0 1 -1.993 -.117a2 2 0 0 1 1.85 -1.995l.15 -.005h4z" />
+            </svg>
+        </div>
+              </div> 
+             
+
+            </div>
+
+            <div>
+              <button class="button addVariableBtn">Add Variable</button>
+            </div>
+          </div>
+          
+          <div class="makerActionContainer">
+            <button class="button makerActionBtn">Maker</button>
+          </div>
+          
+        </div>
+
+
+
+
       </div>
+
+
       <div class="resultContianer">
         <div class="outputsTxt">
           <div class=" outputActionsContainer">
@@ -150,6 +204,7 @@
 
   <script src="./utils.js"></script>
   <script src="./query.js"></script>
+  <script src="./maker.js"></script>
   <script src="./app.js"></script>
 </body>
 

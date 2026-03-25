@@ -4,7 +4,7 @@ const notebook = document.querySelector(".notebook");
 // tabs
 const tabs = document.querySelectorAll('.tabs');
 const inputsSection = document.querySelector('.inputsSection');
-console.log(inputsSection);
+// console.log(inputsSection);
 
 const tabsHandler = (currentTab) => {
   Array.from(inputsSection.children).forEach((child) => {
