@@ -31,6 +31,7 @@ const output = document.querySelector(".output");
 //replace ele
 const replaceInputs = document.querySelectorAll(".replaceInput");
 const replaceBtn = document.querySelector(".replaceBtn");
+const searchBtn = document.querySelector(".searchBtn");
 const replaceCheckBoxes = document.querySelectorAll(".replaceChecks");
 
 // outputactions btn
@@ -97,43 +98,30 @@ const getInputs = (input) => {
     input[name] = value;
   });
 };
-const replaceTxtHandler = (e) => {
+const txtHandler = (e, replace=false) => {
   let input = {};
   getInputs(input);
-  if (input.source == "") {
+  if (input.source == ""){
     showSnackBar(
-      (message = "Please! Enter what you want to replace"),
+      (message = `Please! Enter what you want to ${replace?'replace':'search'}`),
       (icon = ""),
       (type = "danger")
     );
     return;
   }
-  let parem = "g";
-  if (input.caseSensitive) {
-    parem += "i";
-  }
-  if (input.search) {
-    const pattern = new RegExp(input["source"], parem);
-    const replaceList = [...input["content"].matchAll(pattern)];
-    console.log("replace", replaceList);
-    let searchResult = "";
-    for (let i = 0; i < replaceList.length; i++) {
-      searchResult += replaceList[i];
-      if (i != replaceList.length - 1) {
-        searchResult += "\n";
-      }
-    }
-    output.value = searchResult;
+  let param = input["params"].length > 0 ? input["params"]:"gi";
+  if (replace) {
+    output.value = replace_func(input["source"], input["target"], input["content"], param);
     return;
   }
-  const pattern = new RegExp(input["source"], parem);
-  const replaceResult = input["content"].replaceAll(pattern, input["target"]);
-  console.log(replaceResult);
-  output.value = replaceResult;
+  output.value = search_func(input["source"], input["content"], param);
   return;
 };
 
-replaceBtn.addEventListener("click", replaceTxtHandler);
+replaceBtn.addEventListener("click", (e) => txtHandler(e, replace=true));
+searchBtn.addEventListener("click", (e) => txtHandler(e));
+
+
 
 // sql
 const data = {};

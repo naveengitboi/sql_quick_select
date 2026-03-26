@@ -88,3 +88,35 @@ function compareMaps(sourceMap, targetMap, considerDuplicates){
 
     return [presentInTarget, missingFromTarget];
 }
+
+
+
+// replace function
+
+function replace_func(searchValue, newValue, content, params="g"){
+    const pattern = new RegExp(searchValue, params);
+    const replaceResult = content.replace(pattern, newValue);
+    // console.log(replaceResult, pattern);
+    return replaceResult;
+}
+
+function search_func(searchValue, content, params="g"){
+    const pattern = new RegExp(searchValue, params);
+    const matchList = [...content.match(pattern)];
+    let searchResult = "";
+    for (let i = 0; i < matchList.length; i++) {
+      searchResult += matchList[i];
+      if (i != matchList.length - 1) {
+        searchResult += "\n";
+      }
+    }
+
+    return searchResult;
+}
+
+// line breaker
+function handleLineBreaker(e, targetEle) {
+    targetEle.value += LINE_BREAK;
+    targetEle.textContent = targetEle.value;
+    console.log(targetEle);
+}
