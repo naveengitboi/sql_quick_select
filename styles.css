@@ -34,9 +34,9 @@ body{
 .navbar
 {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 0;
+    padding: 0.5rem 10vw;
 }
 button{
   border: none;
@@ -44,20 +44,35 @@ button{
   border-radius: 0.25rem;
   font-family: var(--main_font);
 }
-.navbar button
+.navTabs button
 {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 2rem;
     list-style: none;
     margin:0 0.5rem;
     background-color: orangered;
+
     
 }
-.navbar button:hover
+.navTabs button:hover
 {
       background-color: rgb(210, 56, 0);
     cursor: pointer;
 }
 
+.navActionsItems a {
+  padding: 2px;
+  /* border: 2px solid red ; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navActionsItems a svg
+{
+  color: rgb(173, 114, 228);
+    font-size: 15px;
+    width: 20px;
+}
 
 .notebook
 {
