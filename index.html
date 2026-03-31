@@ -67,7 +67,12 @@
           <button class="button generateBtn">Generate SQL</button>
 
           <div class="replaceTxtSection">
-            <textarea name="content" class="replaceTxt replaceInput" id="" placeholder="Enter Txt"></textarea>
+            <div class="replaceTxtAreaWrapper">
+              <div class="highlightLayer"></div>
+              <!-- <textarea id="textInput" class="text-input" placeholder="Enter your text here..."></textarea> -->
+              <textarea name="content" class="replaceTxt replaceInput" id="" placeholder="Enter Txt"></textarea>
+              <p class="matchCount">Found 100</p>
+            </div>
             <div class="replaceActions">
               <input type="text" placeholder="Write Regex" class="replaceSource replaceInput" name="source">
               <input type="text" placeholder="Replace With" class="replaceWith replaceInput" name="target">
@@ -177,6 +182,7 @@
   <script src="./utils.js"></script>
   <script src="./query.js"></script>
   <script src="./maker.js"></script>
+  <script src="./replace.js"></script>
   <script src="./app.js"></script>
 </body>
 

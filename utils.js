@@ -24,7 +24,6 @@ async function handleCopyQuery(ele){
         data = ele.value;
     }else{
         data = ele.textContent;
-
     }
     if(navigator.clipboard){
         await navigator.clipboard.writeText(data);
@@ -38,8 +37,8 @@ async function handleCutCopyQuery(ele){
     handleCopyQuery(ele);
     if(ele.type.toLowerCase() == 'textarea'){
         ele.value = "";
-        console.log("Cut ele ", ele);
-        console.log("ele ", ele.value);
+        // console.log("Cut ele ", ele);
+        // console.log("ele ", ele.value);
     }else{
         ele.textContent = "";
     }
@@ -50,8 +49,8 @@ async function handleCutCopyQuery(ele){
 function clearContent(ele){
     if(ele.type.toLowerCase() == 'textarea'){
         ele.value = "";
-        console.log("Cut ele ", ele);
-        console.log("ele ", ele.value);
+        // console.log("Cut ele ", ele);
+        // console.log("ele ", ele.value);
     }else{
         ele.textContent = "";
     }

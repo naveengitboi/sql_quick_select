@@ -63,7 +63,7 @@ compareBtn.addEventListener('click', compareHandler);
 
 function getParentEle(ele) {
   console.log("Ele", ele.parentElement);
-  if (
+  if(
     ele.nextElementSibling &&
     ele.nextElementSibling.nodeName.toLowerCase() == "textarea"
   ) {
@@ -87,6 +87,7 @@ cutBtns.forEach((cutBtn) => {
   });
 });
 
+
 // replace actions
 const getInputs = (input) => {
   replaceInputs.forEach((ipt) => {
@@ -98,6 +99,8 @@ const getInputs = (input) => {
     input[name] = value;
   });
 };
+
+
 const txtHandler = (e, replace=false) => {
   let input = {};
   getInputs(input);

@@ -158,7 +158,7 @@ function handleMakerFunc(e) {
             output += resultList[i] + join;
         }
     }
-    outputEle.textContent = output;
+    outputEle.value = output;
 }
 
 makerBtn.addEventListener('click', handleMakerFunc);
