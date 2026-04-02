@@ -29,10 +29,13 @@ const operations = document.querySelectorAll(".operations");
 const output = document.querySelector(".output");
 
 //replace ele
-const replaceInputs = document.querySelectorAll(".replaceInput");
+const replaceInput = document.querySelector(".replaceWith");
+const searchInput = document.querySelector(".replaceSource");
+const paramsEle = document.querySelector(".params");
+const replaceTxtArea = document.querySelector(".replaceTxt");
 const replaceBtn = document.querySelector(".replaceBtn");
-const searchBtn = document.querySelector(".searchBtn");
-const replaceCheckBoxes = document.querySelectorAll(".replaceChecks");
+const matchCount = document.querySelector('.matchCount');
+const highlightLayer = document.querySelector('.highlightLayer');
 
 // outputactions btn
 const copyBtns = document.querySelectorAll(".copyBtn");
@@ -106,9 +109,9 @@ const txtHandler = (e, replace=false) => {
   getInputs(input);
   if (input.source == ""){
     showSnackBar(
-      (message = `Please! Enter what you want to ${replace?'replace':'search'}`),
-      (icon = ""),
-      (type = "danger")
+      {message : `Please! Enter what you want to ${replace?'replace':'search'}`
+      ,icon : ""
+      ,type : "danger"}
     );
     return;
   }
@@ -121,9 +124,12 @@ const txtHandler = (e, replace=false) => {
   return;
 };
 
-replaceBtn.addEventListener("click", (e) => txtHandler(e, replace=true));
-searchBtn.addEventListener("click", (e) => txtHandler(e));
+// replaceBtn.addEventListener("click", (e) => txtHandler(e, replace=true));
+// searchBtn.addEventListener("click", (e) => txtHandler(e));
 
+document.addEventListener('DOMContentLoaded', () => {
+  const rep = new RegexHighlightTool({textarea:replaceTxtArea,replaceBtn, searchInput, replaceInput, highlightLayer, matchCount, output, params:paramsEle});
+})
 
 
 // sql

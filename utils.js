@@ -1,4 +1,4 @@
-function showSnackBar(message="Event Succeed", icon="",type="regular", duration=3000){
+function showSnackBar({message="Event Succeed", icon="",type="regular", duration=3000}={}){
     const sb = document.querySelector(".snackbar");
         sb.innerHTML = `${icon}${message}!`;
         if(type == 'danger'){
