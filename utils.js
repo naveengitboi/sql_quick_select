@@ -1,3 +1,9 @@
+const COPY = 'copy';
+const CUT = 'cut';
+
+
+
+
 function showSnackBar({message="Event Succeed", icon="",type="regular", duration=3000}={}){
     const sb = document.querySelector(".snackbar");
         sb.innerHTML = `${icon}${message}!`;
@@ -16,45 +22,47 @@ function showSnackBar({message="Event Succeed", icon="",type="regular", duration
         }, duration);
 }
 
+function codeHiglighter({ele=null, lang="plaintext", refresh=true}={}){
+    if(!ele) return;
+    ele.classList.forEach(cls => {
+        if(cls.startsWith('language')){
+            ele.classList.remove(cls);
+        }
+    })
+    let txt = ele.innerText;
+    ele.classList.add(`language-${lang}`);
+    if(refresh) delete ele.dataset.highlighted;
+    ele.textContent = txt;
+    hljs.highlightElement(ele);
+}
 
 
-async function handleCopyQuery(ele){
+function debouncer(fn, delay=300){
+    let timer;
+    return function(...args){
+        clearTimeout(timer);
+        timer = setTimeout(()=>{
+            fn.apply(this, args);
+        }, delay);
+    }
+}
+
+async function handleCopyQuery({ele=null, type=COPY}={}){
     let data = "";
-    if(ele.type.toLowerCase() == "textarea"){
+    if(ele.localName.toLowerCase() == "textarea"){
         data = ele.value;
+        if(type == CUT) ele.value = '';
     }else{
         data = ele.textContent;
+        if(type == CUT) ele.textContent = '';
     }
-    if(navigator.clipboard){
+    if(navigator.clipboard && data){
         await navigator.clipboard.writeText(data);
-        showSnackBar(message="Copy Succeed");
+        showSnackBar({message:`${type} Succeed`});
+    }else{
+        showSnackBar({message:`${type} Failed`, type:"danger"});
     }
     
-}
-
-
-async function handleCutCopyQuery(ele){
-    handleCopyQuery(ele);
-    if(ele.type.toLowerCase() == 'textarea'){
-        ele.value = "";
-        // console.log("Cut ele ", ele);
-        // console.log("ele ", ele.value);
-    }else{
-        ele.textContent = "";
-    }
-    return;
-}
-
-
-function clearContent(ele){
-    if(ele.type.toLowerCase() == 'textarea'){
-        ele.value = "";
-        // console.log("Cut ele ", ele);
-        // console.log("ele ", ele.value);
-    }else{
-        ele.textContent = "";
-    }
-    return;
 }
 
 
@@ -92,15 +100,15 @@ function compareMaps(sourceMap, targetMap, considerDuplicates){
 
 // replace function
 
-function replace_func(searchValue, newValue, content, params="g"){
-    const pattern = new RegExp(searchValue, params);
+function replace_func(searchValue, newValue, content, flags="gi"){
+    const pattern = new RegExp(searchValue, flags);
     const replaceResult = content.replace(pattern, newValue);
     // console.log(replaceResult, pattern);
     return replaceResult;
 }
 
-function search_func(searchValue, content, params="g"){
-    const pattern = new RegExp(searchValue, params);
+function search_func(searchValue, content, flags="gi"){
+    const pattern = new RegExp(searchValue, flags);
     const matchList = [...content.match(pattern)];
     let searchResult = "";
     for (let i = 0; i < matchList.length; i++) {
@@ -109,7 +117,6 @@ function search_func(searchValue, content, params="g"){
         searchResult += "\n";
       }
     }
-
     return searchResult;
 }
 
@@ -117,5 +124,4 @@ function search_func(searchValue, content, params="g"){
 function handleLineBreaker(e, targetEle) {
     targetEle.value += LINE_BREAK;
     targetEle.textContent = targetEle.value;
-    console.log(targetEle);
 }

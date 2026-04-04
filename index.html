@@ -6,7 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sql Select</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/xt256.min.css"/>
 </head>
+
 
 <body>
   <p class="snackbar">Successfully Copied</p>
@@ -64,7 +66,7 @@
               <input class="seperator" type="text" placeholder="eg: , | ' ' | any other" name="seperator"></input>
             </div>
           </div>
-          <button class="button generateBtn">Generate SQL</button>
+          <button class="button generateBtn">Generate SQL *(WIP)</button>
 
           <div class="replaceTxtSection">
             <div class="replaceTxtAreaWrapper">
@@ -75,10 +77,10 @@
             <div class="replaceActions">
               <input type="text" placeholder="Write Regex" class="replaceSource replaceInput" name="source">
               <input type="text" placeholder="Replace With" class="replaceWith replaceInput" name="target">
-              <input type="text" placeholder="gi(default)" class="params replaceInput" name="params">
+              <input type="text" placeholder="gi(default)" class="flags replaceInput" name="flags">
               <div class="replaceActionsBtns">
                 <button class="replaceBtn button">Replace</button>
-                <button class="searchBtn button">Search</button>
+                <button class="listBtn button">List</button>
               </div>
             </div>
           </div>
@@ -123,9 +125,15 @@
 
       <div class="resultContianer">
         <div class="outputsTxt">
-          <div class=" outputActionsContainer">
+          <div class="outputActionsContainer">
             <p>Output</p>
             <div class="outputActions">
+              <select name="selectLang" id="" class="langSelector">
+                <option value="plaintext">Plaintext</option>
+                <option value="sql">SQL</option>
+                <option value="javascript">JS</option>
+                <option value="cpp">c++</option>
+              </select>
               <div class="outputActionBtn copyBtn">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                   stroke="currentColor" className="size-6">
@@ -143,7 +151,7 @@
               </div>
             </div>
           </div>
-          <textarea class="output"></textarea>
+          <div contenteditable="true" class="output canCopy outputTxt"></div>
 
         </div>
 
@@ -167,9 +175,8 @@
 
               </div>
             </div>
-
           </div>
-          <textarea class="rough" cols="2" wrap="hard"></textarea>
+          <div class="rough output canCopy" contenteditable="true"></div>
 
         </div>
 
@@ -178,6 +185,7 @@
     <p class="notebook"></p>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script src="./utils.js"></script>
   <script src="./query.js"></script>
   <script src="./maker.js"></script>

@@ -6,6 +6,8 @@ const tabs = document.querySelectorAll('.tabs');
 const inputsSection = document.querySelector('.inputsSection');
 // console.log(inputsSection);
 
+const langSelectorEle = document.querySelector('.langSelector');
+
 const tabsHandler = (currentTab) => {
   Array.from(inputsSection.children).forEach((child) => {
     if (child["dataset"]["tab"] == currentTab["dataset"]["tab"]) {
@@ -22,18 +24,27 @@ tabs.forEach((tab) => {
   tab.addEventListener('click', () => tabsHandler(tab));
 })
 
+
 // form
 const inputEle = document.querySelectorAll(".input");
 const generateBtn = document.querySelector(".generateBtn");
 const operations = document.querySelectorAll(".operations");
-const output = document.querySelector(".output");
+const output = document.querySelector(".outputTxt");
+
+codeHiglighter({ele:output});
+
+langSelectorEle.addEventListener('change', (e) => {
+  codeHiglighter({ele:output, lang:e.target.value});
+})
+
 
 //replace ele
 const replaceInput = document.querySelector(".replaceWith");
 const searchInput = document.querySelector(".replaceSource");
-const paramsEle = document.querySelector(".params");
+const flagsEle = document.querySelector(".flags");
 const replaceTxtArea = document.querySelector(".replaceTxt");
 const replaceBtn = document.querySelector(".replaceBtn");
+const listBtn = document.querySelector(".listBtn");
 const matchCount = document.querySelector('.matchCount');
 const highlightLayer = document.querySelector('.highlightLayer');
 
@@ -65,10 +76,10 @@ compareBtn.addEventListener('click', compareHandler);
 //copy functionality
 
 function getParentEle(ele) {
-  console.log("Ele", ele.parentElement);
+  // console.log("Ele", ele.parentElement, {ele});
   if(
     ele.nextElementSibling &&
-    ele.nextElementSibling.nodeName.toLowerCase() == "textarea"
+    ele.nextElementSibling.classList.contains('canCopy')
   ) {
     return ele.nextElementSibling;
   }
@@ -77,58 +88,23 @@ function getParentEle(ele) {
 
 copyBtns.forEach((copyBtn) => {
   copyBtn.addEventListener("click", (e) => {
-    console.log({ e });
     const parentEle = getParentEle(e.target);
-    handleCopyQuery(parentEle);
+    handleCopyQuery({ele:parentEle});
   });
 });
 
 cutBtns.forEach((cutBtn) => {
   cutBtn.addEventListener("click", (e) => {
     const parentEle = getParentEle(e.target);
-    handleCutCopyQuery(parentEle);
+    handleCopyQuery({ele:parentEle, type:CUT});
   });
 });
 
 
 // replace actions
-const getInputs = (input) => {
-  replaceInputs.forEach((ipt) => {
-    let [name, value] = [ipt.name, ipt.value];
-    input[name] = value;
-  });
-  replaceCheckBoxes.forEach((checkEle) => {
-    let [name, value] = [checkEle.name, checkEle.checked];
-    input[name] = value;
-  });
-};
-
-
-const txtHandler = (e, replace=false) => {
-  let input = {};
-  getInputs(input);
-  if (input.source == ""){
-    showSnackBar(
-      {message : `Please! Enter what you want to ${replace?'replace':'search'}`
-      ,icon : ""
-      ,type : "danger"}
-    );
-    return;
-  }
-  let param = input["params"].length > 0 ? input["params"]:"gi";
-  if (replace) {
-    output.value = replace_func(input["source"], input["target"], input["content"], param);
-    return;
-  }
-  output.value = search_func(input["source"], input["content"], param);
-  return;
-};
-
-// replaceBtn.addEventListener("click", (e) => txtHandler(e, replace=true));
-// searchBtn.addEventListener("click", (e) => txtHandler(e));
 
 document.addEventListener('DOMContentLoaded', () => {
-  const rep = new RegexHighlightTool({textarea:replaceTxtArea,replaceBtn, searchInput, replaceInput, highlightLayer, matchCount, output, params:paramsEle});
+  const rep = new RegexHighlightTool({textarea:replaceTxtArea,replaceBtn, searchInput, replaceInput, highlightLayer, matchCount, output, flags:flagsEle, getListBtn:listBtn});
 })
 
 
@@ -207,3 +183,13 @@ const generateHandler = (e) => {
 };
 
 generateBtn.addEventListener("click", generateHandler);
+
+
+
+
+// code highlighter
+let debouncedCodeHighlighter = debouncer(codeHiglighter, 300);
+
+output.addEventListener('input', () => {
+  debouncedCodeHighlighter({ele:output, refresh:true})
+});
