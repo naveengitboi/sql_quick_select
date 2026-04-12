@@ -7,6 +7,7 @@ const addLineBreakerBtn = document.querySelector('.addLineBreakerBtn');
 const LINE_BREAK = '\n\n\n---### UNIVERSAL_BREAK_MIGHT_NOT_EXIST ###---\n\n\n'
 
 const outputEle = document.querySelector(".output");
+const codeOverlayEle = document.querySelector(".codeOverlay");
 let idTag = 1;
 
 
@@ -54,11 +55,10 @@ addVariableBtn.addEventListener("click", () => {
     idTag++;
     // Delete functionality
     divEle.querySelector(".repInputDelete").addEventListener("click", () => {
-        showSnackBar(
-            (message = `Deleted Variable`),
-            (icon = ""),
-            (type = "danger")
-        );
+        showSnackBar({
+            message : `Deleted Variable`,
+            type:'danger'
+        });
         divEle.remove();
     });
 
@@ -98,8 +98,8 @@ function vecDivsHandler(divs,maxIterator){
                 
                 if(trans.toLowerCase().startsWith("replace(") && trans.toLowerCase().endsWith(")")){
                     let args = getArgsOfFunc(trans);
-                    let repParams = ((args.length > 2) && (args[2].length > 0)) ? args[2] : "gi";
-                    currQuery = replace_func(args[0], args[1], currQuery, repParams);
+                    let repflags = ((args.length > 2) && (args[2].length > 0)) ? args[2] : "gi";
+                    currQuery = replace_func(args[0], args[1], currQuery, repflags);
                 }else if(trans.toLowerCase().startsWith('{') && trans.toLowerCase().endsWith('}')){
                     currTemplate = replace_func(trans, currQuery, currTemplate, "g");
                 }
@@ -159,6 +159,7 @@ function handleMakerFunc(e) {
         }
     }
     outputEle.value = output;
+    codeHiglighter({ele:outputEle, overlay:codeOverLayEle, lang:langSelectorEle.value})
 }
 
 makerBtn.addEventListener('click', handleMakerFunc);

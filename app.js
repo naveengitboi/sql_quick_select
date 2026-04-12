@@ -6,6 +6,8 @@ const tabs = document.querySelectorAll('.tabs');
 const inputsSection = document.querySelector('.inputsSection');
 // console.log(inputsSection);
 
+const langSelectorEle = document.querySelector('.langSelector');
+
 const tabsHandler = (currentTab) => {
   Array.from(inputsSection.children).forEach((child) => {
     if (child["dataset"]["tab"] == currentTab["dataset"]["tab"]) {
@@ -22,17 +24,31 @@ tabs.forEach((tab) => {
   tab.addEventListener('click', () => tabsHandler(tab));
 })
 
+
 // form
 const inputEle = document.querySelectorAll(".input");
 const generateBtn = document.querySelector(".generateBtn");
 const operations = document.querySelectorAll(".operations");
 const output = document.querySelector(".output");
+const codeOverLayEle = document.querySelector(".codeOverlay");
+const preEle = document.querySelector("pre");
+
+codeHiglighter({overlay:codeOverLayEle, ele:output});
+
+langSelectorEle.addEventListener('change', (e) => {
+  codeHiglighter({overlay:codeOverLayEle, lang:e.target.value, ele:output});
+})
+
 
 //replace ele
-const replaceInputs = document.querySelectorAll(".replaceInput");
+const replaceInput = document.querySelector(".replaceWith");
+const searchInput = document.querySelector(".replaceSource");
+const flagsEle = document.querySelector(".flags");
+const replaceTxtArea = document.querySelector(".replaceTxt");
 const replaceBtn = document.querySelector(".replaceBtn");
-const searchBtn = document.querySelector(".searchBtn");
-const replaceCheckBoxes = document.querySelectorAll(".replaceChecks");
+const listBtn = document.querySelector(".listBtn");
+const matchCount = document.querySelector('.matchCount');
+const highlightLayer = document.querySelector('.highlightLayer');
 
 // outputactions btn
 const copyBtns = document.querySelectorAll(".copyBtn");
@@ -61,69 +77,28 @@ compareBtn.addEventListener('click', compareHandler);
 
 //copy functionality
 
-function getParentEle(ele) {
-  console.log("Ele", ele.parentElement);
-  if(
-    ele.nextElementSibling &&
-    ele.nextElementSibling.nodeName.toLowerCase() == "textarea"
-  ) {
-    return ele.nextElementSibling;
-  }
-  return getParentEle(ele.parentElement);
-}
-
 copyBtns.forEach((copyBtn) => {
   copyBtn.addEventListener("click", (e) => {
-    console.log({ e });
-    const parentEle = getParentEle(e.target);
-    handleCopyQuery(parentEle);
+    const parent = copyBtn.dataset.parent;
+    const parentEle = document.querySelector(`.${parent}`);
+    handleCopyQuery({ele:parentEle});
   });
 });
 
 cutBtns.forEach((cutBtn) => {
   cutBtn.addEventListener("click", (e) => {
-    const parentEle = getParentEle(e.target);
-    handleCutCopyQuery(parentEle);
+    const parent = cutBtn.dataset.parent;
+    const parentEle = document.querySelector(`.${parent}`);
+    handleCopyQuery({ele:parentEle, type:CUT});
   });
 });
 
 
 // replace actions
-const getInputs = (input) => {
-  replaceInputs.forEach((ipt) => {
-    let [name, value] = [ipt.name, ipt.value];
-    input[name] = value;
-  });
-  replaceCheckBoxes.forEach((checkEle) => {
-    let [name, value] = [checkEle.name, checkEle.checked];
-    input[name] = value;
-  });
-};
 
-
-const txtHandler = (e, replace=false) => {
-  let input = {};
-  getInputs(input);
-  if (input.source == ""){
-    showSnackBar(
-      (message = `Please! Enter what you want to ${replace?'replace':'search'}`),
-      (icon = ""),
-      (type = "danger")
-    );
-    return;
-  }
-  let param = input["params"].length > 0 ? input["params"]:"gi";
-  if (replace) {
-    output.value = replace_func(input["source"], input["target"], input["content"], param);
-    return;
-  }
-  output.value = search_func(input["source"], input["content"], param);
-  return;
-};
-
-replaceBtn.addEventListener("click", (e) => txtHandler(e, replace=true));
-searchBtn.addEventListener("click", (e) => txtHandler(e));
-
+document.addEventListener('DOMContentLoaded', () => {
+  const rep = new RegexHighlightTool({textarea:replaceTxtArea,replaceBtn, searchInput, replaceInput, highlightLayer, matchCount, output, flags:flagsEle, getListBtn:listBtn});
+})
 
 
 // sql
@@ -201,3 +176,19 @@ const generateHandler = (e) => {
 };
 
 generateBtn.addEventListener("click", generateHandler);
+
+
+
+
+// code highlighter
+
+output.addEventListener('input', () => {
+  syncScroll({parent:output, child:preEle});
+  codeHiglighter({overlay:codeOverLayEle, ele:output, lang:langSelectorEle.value});
+  syncScroll({parent:output, child:preEle});
+});
+
+
+output.addEventListener('scroll', () => {
+  syncScroll({parent:output, child:preEle});
+})
