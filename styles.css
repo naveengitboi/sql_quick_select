@@ -281,7 +281,6 @@ input, textarea
    background-image: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px);
   background-size: 8px 100%;
   word-wrap: break-word;
-  border: 2px solid red;
 }
 
 
