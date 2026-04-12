@@ -29,12 +29,14 @@ tabs.forEach((tab) => {
 const inputEle = document.querySelectorAll(".input");
 const generateBtn = document.querySelector(".generateBtn");
 const operations = document.querySelectorAll(".operations");
-const output = document.querySelector(".outputTxt");
+const output = document.querySelector(".output");
+const codeOverLayEle = document.querySelector(".codeOverlay");
+const preEle = document.querySelector("pre");
 
-codeHiglighter({ele:output});
+codeHiglighter({overlay:codeOverLayEle, ele:output});
 
 langSelectorEle.addEventListener('change', (e) => {
-  codeHiglighter({ele:output, lang:e.target.value});
+  codeHiglighter({overlay:codeOverLayEle, lang:e.target.value, ele:output});
 })
 
 
@@ -75,27 +77,18 @@ compareBtn.addEventListener('click', compareHandler);
 
 //copy functionality
 
-function getParentEle(ele) {
-  // console.log("Ele", ele.parentElement, {ele});
-  if(
-    ele.nextElementSibling &&
-    ele.nextElementSibling.classList.contains('canCopy')
-  ) {
-    return ele.nextElementSibling;
-  }
-  return getParentEle(ele.parentElement);
-}
-
 copyBtns.forEach((copyBtn) => {
   copyBtn.addEventListener("click", (e) => {
-    const parentEle = getParentEle(e.target);
+    const parent = copyBtn.dataset.parent;
+    const parentEle = document.querySelector(`.${parent}`);
     handleCopyQuery({ele:parentEle});
   });
 });
 
 cutBtns.forEach((cutBtn) => {
   cutBtn.addEventListener("click", (e) => {
-    const parentEle = getParentEle(e.target);
+    const parent = cutBtn.dataset.parent;
+    const parentEle = document.querySelector(`.${parent}`);
     handleCopyQuery({ele:parentEle, type:CUT});
   });
 });
@@ -188,8 +181,14 @@ generateBtn.addEventListener("click", generateHandler);
 
 
 // code highlighter
-let debouncedCodeHighlighter = debouncer(codeHiglighter, 300);
 
 output.addEventListener('input', () => {
-  debouncedCodeHighlighter({ele:output, refresh:true})
+  syncScroll({parent:output, child:preEle});
+  codeHiglighter({overlay:codeOverLayEle, ele:output, lang:langSelectorEle.value});
+  syncScroll({parent:output, child:preEle});
 });
+
+
+output.addEventListener('scroll', () => {
+  syncScroll({parent:output, child:preEle});
+})

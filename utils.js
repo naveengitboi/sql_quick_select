@@ -1,9 +1,6 @@
 const COPY = 'copy';
 const CUT = 'cut';
 
-
-
-
 function showSnackBar({message="Event Succeed", icon="",type="regular", duration=3000}={}){
     const sb = document.querySelector(".snackbar");
         sb.innerHTML = `${icon}${message}!`;
@@ -22,18 +19,39 @@ function showSnackBar({message="Event Succeed", icon="",type="regular", duration
         }, duration);
 }
 
-function codeHiglighter({ele=null, lang="plaintext", refresh=true}={}){
-    if(!ele) return;
-    ele.classList.forEach(cls => {
+function syncScroll({parent=null, child=null}={}){
+    requestAnimationFrame(() => {
+        child.scrollTop = parent.scrollTop;
+        child.scrollLeft = parent.scrollLeft;
+  });
+
+}
+
+function codeHiglighter({ele=null,overlay=null, lang="plaintext", refresh=true}={}){
+    overlay.classList.forEach(cls => {
         if(cls.startsWith('language')){
-            ele.classList.remove(cls);
+            overlay.classList.remove(cls);
         }
     })
-    let txt = ele.innerText;
-    ele.classList.add(`language-${lang}`);
-    if(refresh) delete ele.dataset.highlighted;
-    ele.textContent = txt;
-    hljs.highlightElement(ele);
+    let txt;
+    if(ele.localName == 'textarea'){
+        txt = ele.value;
+        if(ele.value.endsWith('\n')){
+            txt += '\n';
+        }
+    }else{
+        txt = ele.innerText;
+        if(ele.innerText.endsWith('\n')){
+            txt += '\n';
+        }
+    }
+    overlay.classList.add(`language-${lang}`);
+    if(refresh){
+        delete overlay.dataset.highlighted;
+    }
+    overlay.textContent = txt;
+    hljs.highlightElement(overlay);
+    syncScroll({parent:ele, child:overlay});
 }
 
 
@@ -51,7 +69,9 @@ async function handleCopyQuery({ele=null, type=COPY}={}){
     let data = "";
     if(ele.localName.toLowerCase() == "textarea"){
         data = ele.value;
-        if(type == CUT) ele.value = '';
+        if(type == CUT){
+            ele.value = '';
+        }
     }else{
         data = ele.textContent;
         if(type == CUT) ele.textContent = '';
@@ -59,8 +79,6 @@ async function handleCopyQuery({ele=null, type=COPY}={}){
     if(navigator.clipboard && data){
         await navigator.clipboard.writeText(data);
         showSnackBar({message:`${type} Succeed`});
-    }else{
-        showSnackBar({message:`${type} Failed`, type:"danger"});
     }
     
 }

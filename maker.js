@@ -7,6 +7,7 @@ const addLineBreakerBtn = document.querySelector('.addLineBreakerBtn');
 const LINE_BREAK = '\n\n\n---### UNIVERSAL_BREAK_MIGHT_NOT_EXIST ###---\n\n\n'
 
 const outputEle = document.querySelector(".output");
+const codeOverlayEle = document.querySelector(".codeOverlay");
 let idTag = 1;
 
 
@@ -158,6 +159,7 @@ function handleMakerFunc(e) {
         }
     }
     outputEle.value = output;
+    codeHiglighter({ele:outputEle, overlay:codeOverLayEle, lang:langSelectorEle.value})
 }
 
 makerBtn.addEventListener('click', handleMakerFunc);

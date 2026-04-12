@@ -3,20 +3,43 @@
 :root{
   --main_font:"Space Mono", monospace;
   --code_font:"Google Sans Code", monospace;
+  --cursor-fill: "./cursor-fill.svg";
 }
 
 *{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: var(--main_font);
-    /* font-family: "Google Sans Code", monospace; */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--main_font);
+  /* font-family: "Google Sans Code", monospace; */
 }
 body{
-    background-color: black;
-    color: white;
-    font-family: var(--code_font);
+  background-color: black;
+  color: white;
+  font-family: var(--code_font);
 }
+::-webkit-scrollbar {
+  background-color: black;
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ababab;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  background-color: rgb(57, 57, 57);
+  border-radius: 3px;
+  cursor: grabbing;
+}
+::-webkit-scrollbar-thumb:hover{
+  border: 0;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 .wrapper
 {
   width: 100vw;
@@ -138,14 +161,6 @@ input, textarea
   width: 100%;
   /* border: 2px solid red; */
 }
-.inputsSection::-webkit-scrollbar{
-  background-color: black;
-  width: 6px;
-  border-radius: 3px;
-}
-.inputsSection::-webkit-scrollbar-thumb{
-  background-color: rgb(54, 54, 54);
-}
 
 .activeTab
 {
@@ -253,20 +268,6 @@ input, textarea
 .replaceTxt{
   z-index: 2;
   background: transparent;
-  overflow: auto;
-}
-
-.replaceTxt::-webkit-scrollbar{
-  background-color: black;
-  width: 6px;
-}
-.replaceTxt::-webkit-scrollbar-thumb{
-  background-color: rgb(57, 57, 57);
-  border-radius: 3px;
-}
-
-.highlightLayer::-webkit-scrollbar{
-  display: none;
 }
 
 
@@ -276,13 +277,23 @@ input, textarea
   /* border: 10px solid #ccc; */
   pointer-events: none;
   font-family: var(--code_font);
-  word-wrap: break-word;
   z-index: 0;
-  white-space: pre;
    background-image: linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px);
   background-size: 8px 100%;
+  word-wrap: break-word;
+  border: 2px solid red;
 }
 
+
+.highlightLayer::-webkit-scrollbar{
+  pointer-events: none;
+  background-color: transparent;
+}
+
+.highlightLayer::-webkit-scrollbar-thumb{
+  pointer-events: none;
+  background-color: transparent;
+}
 
 .highlightLayer .replaceHighlight {
   background-color: rgb(87, 66, 47);
@@ -357,17 +368,6 @@ input, textarea
   border: 2px solid rgb(41, 41, 41);
   border-radius: 0.5rem;
 }
-
-
-.template_creator textarea::-webkit-scrollbar, .repInputContainer::-webkit-scrollbar{
-  background-color: black;
-  width: 6px;
-}
-.template_creator textarea::-webkit-scrollbar-thumb, .repInputContainer::-webkit-scrollbar-thumb{
-  background-color: rgb(57, 57, 57);
-  border-radius: 3px;
-}
-
 
 .repInputContainer .repInput
 {
@@ -492,54 +492,92 @@ input, textarea
   position: relative;
   border: 2px solid rgb(49, 49, 49);
   border-radius: 0.25rem;
-  height: 45vh;
   display: grid;
   grid-template-rows: 45px 1fr;
+  overflow-y: scroll;
+}
+.outputsTxt::-webkit-scrollbar 
+{
+  display: none;
 }
 .resultContianer::-webkit-scrollbar{
   display: none;
 }
-.outputsTxt .output {
-  display: block;
-  min-width: 100%;
-  max-width: 100%;
-  height: 100%;
-  border: none;
-  resize: none;
-  white-space: pre-wrap;
-  word-break: break-word;
-  outline: none;
-  font-family: var(--code_font);
-  overflow-y: scroll;
-}
-.output div
-{
-  font-family: var(--code_font);
-}
-.outputsTxt .output code
-{
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 2px solid blue;
-}
-.outputsTxt .output::-webkit-scrollbar{
-  background-color: black;
-  width: 6px;
-}
-.outputsTxt .output code::-webkit-scrollbar{
-  background-color: black;
-  width: 6px;
-}
-.outputsTxt .output::-webkit-scrollbar-thumb{
-  background-color: rgb(57, 57, 57);
-  border-radius: 3px;
-}
-.outputsTxt .output code::-webkit-scrollbar-thumb{
-  background-color: rgb(57, 57, 57);
-  border-radius: 3px;
+.outputCodeContainer {
+  position: relative;
 }
 
+
+.outputCodeContainer .output, 
+.outputCodeContainer pre {
+  margin: 0;
+  padding: 10px; /* Use a specific value instead of 0 for better look */
+  
+  /* CRITICAL: These must be identical */
+  font-family: var(--code_font), monospace;
+  font-size: 1rem;
+  
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: auto;
+  box-sizing: border-box;
+  border: 1px solid transparent; /* Match borders even if invisible */
+  text-rendering: optimizeLegibility;
+  line-height: 24px !important; /* Always set a fixed line-height */
+}
+
+.outputCodeContainer .output {
+  z-index: 2;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.3); /* Transparent text to show highlights */
+  caret-color: white;
+  resize: none;
+  outline: none;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.3); /* Required for some browsers */
+}
+
+.outputCodeContainer pre {
+  z-index: 1;
+  pointer-events: none; /* Let clicks pass through to the textarea */
+  color: white; /* Default text color */
+}
+
+.codeOverlay {
+  display: block;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  box-sizing: border-box;
+}
+pre code.hljs {
+  padding: 0 !important;
+  margin: 0;
+  font-family: var(--code_font), monospace !important;
+  line-height: 24px !important; /* Always set a fixed line-height */
+  box-sizing: border-box;
+}
+
+pre code span{
+  line-height: inherit;
+  display: inline;
+  font-family: var(--code_font), monospace !important;
+  box-sizing: border-box;
+}
+.outputCodeContainer pre::-webkit-scrollbar{
+  background-color: transparent;
+  pointer-events: none;
+}
+
+.outputCodeContainer pre::-webkit-scrollbar-thumb{
+  background-color: transparent;
+}
 .outputActionsContainer{
   display: flex;
   background-color: rgb(24, 24, 24);
@@ -580,6 +618,14 @@ svg
 {
   background: rgb(54, 54, 54);
   cursor: pointer;
+}
+
+.rough
+{
+  font-size: 1rem;
+  font-family: var(--code_font);
+  border: none;
+  outline: none;
 }
 
 

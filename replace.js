@@ -187,6 +187,7 @@ class RegexHighlightTool {
     let values = ['textarea', 'input'];
     if (values.includes(outputType.toLowerCase())) {
       this.output.value = content;
+      codeHiglighter({ele:this.output, overlay:document.querySelector('.codeOverlay')})
     } else {
       this.output.textContent = content;
     }
