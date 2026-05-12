@@ -19,6 +19,8 @@
         <button class="tabs" data-tab="sql">SQL</button>
         <button style="display: none;" class="tabs" data-tab="regex">Regex PG</button>
         <button class="tabs" data-tab="maker">Maker</button>
+        <button style="display: none;" class="tabs" data-tab="dtypes">DTypes Query</button>
+        <button class="tabs" data-tab="docsCont">Docs</button>
       </div>
       <div class="navActionsItems">
         <a href="https://github.com/naveengitboi" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="24"
@@ -32,7 +34,7 @@
     </div>
     <div class="heroSection">
       <div class="inputsSection">
-        <div class="sqlTab activeTab" data-tab="sql">
+        <div class="sqlTab inActiveTab" data-tab="sql">
           <div class="inputsContainer">
             <div class="input">
               <p>DB Name</p>
@@ -124,6 +126,19 @@
         </div>
 
 
+        <div class="csvDataContainer inActiveTab" data-tab="dtypes">
+          <textarea name="csvData" class="csvData" id=""></textarea>
+          <div class="dataActionContainer">
+            <input type="text" class="delimeter">
+            <input type="text" class="delimeter">
+          </div>
+        </div>
+
+
+
+        <div class="docsContainer activeTab" data-tab="docsCont">
+          <p>Hello js</p>
+        </div>
 
 
       </div>

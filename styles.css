@@ -472,6 +472,19 @@ input, textarea
 }
 
 
+/* Dtype query Tab */
+
+.csvDataContainer
+{
+  border: 2px solid red;
+  height: 100%;
+}
+
+.dataActionContainer
+{
+  margin: 5px 0;
+}
+
 
 
 
