@@ -1,6 +1,7 @@
 const COPY = 'copy';
 const CUT = 'cut';
 
+
 function showSnackBar({message="Event Succeed", icon="",type="regular", duration=3000}={}){
     const sb = document.querySelector(".snackbar");
         sb.innerHTML = `${icon}${message}!`;
@@ -65,12 +66,15 @@ function debouncer(fn, delay=300){
     }
 }
 
+
 async function handleCopyQuery({ele=null, type=COPY}={}){
     let data = "";
+    console.log("Eleement ", ele);
     if(ele.localName.toLowerCase() == "textarea"){
         data = ele.value;
         if(type == CUT){
             ele.value = '';
+            codeHiglighter({overlay:codeOverLayEle, ele:output, lang:langSelectorEle.value});
         }
     }else{
         data = ele.textContent;
@@ -142,4 +146,13 @@ function search_func(searchValue, content, flags="gi"){
 function handleLineBreaker(e, targetEle) {
     targetEle.value += LINE_BREAK;
     targetEle.textContent = targetEle.value;
+}
+
+
+
+//create element function
+function createEle({ele,type="class", typeList=""}={}){
+    const element = document.createElement(ele);
+    element.setAttribute(type, typeList);
+    return element;
 }

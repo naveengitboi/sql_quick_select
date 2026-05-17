@@ -1,4 +1,3 @@
-const notebook = document.querySelector(".notebook");
 
 
 // tabs
@@ -93,90 +92,13 @@ cutBtns.forEach((cutBtn) => {
   });
 });
 
-
 // replace actions
 
 document.addEventListener('DOMContentLoaded', () => {
   const rep = new RegexHighlightTool({textarea:replaceTxtArea,replaceBtn, searchInput, replaceInput, highlightLayer, matchCount, output, flags:flagsEle, getListBtn:listBtn});
+
+  const query = new SqlQueryGenerator();
 })
-
-
-// sql
-const data = {};
-
-const executeQuery = (data) => {
-  let query = "";
-  let table = "";
-  let seperator = "\n";
-  if (data["db"]) {
-    table += data["db"] + ".";
-  }
-  if (data["schema"]) {
-    table += data["schema"] + ".";
-  }
-  if (data["table"]) {
-    table += data["table"];
-  }
-
-  if (data["seperator"] != "") {
-    const sep = new RegExp(data["seperator"]);
-    seperator = sep;
-    console.log(seperator);
-  }
-  let insertInto = data["insert"];
-  let cols = data["columnsList"].trim().split(seperator);
-  let vals = data["values"].trim().split(seperator);
-  let colsList = "";
-  let valuesList = "";
-  let newLine = data["newLine"];
-  for (let i = 0; i < cols.length; i++) {
-    let col = "";
-    let j = 0;
-    for (let j = 0; j < cols[i].length; j++) {
-      if (cols[i][j] != ",") {
-        col += cols[i][j];
-      }
-    }
-    colsList += col + " " + (insertInto ? "" : data["dataType"]);
-    if (i != cols.length - 1) {
-      colsList += ",";
-      if (newLine) colsList += "\n";
-    }
-  }
-  for (let i = 0; i < vals.length; i++) {
-    valuesList += vals[i];
-    if (i != vals.length - 1) {
-      valuesList += ",";
-    }
-  }
-  if (data["insert"]) {
-    query += `INSERT INTO ${table} (${colsList}) 
-        VALUES (${valuesList})`;
-  } else {
-    query += colsList;
-  }
-  output.value = query;
-};
-
-const generateHandler = (e) => {
-  Array.from(inputEle).forEach((ele) => {
-    const inputEle = ele.children[1];
-    const name = inputEle.name;
-    data[name] = inputEle.value;
-    if (name == "insert") {
-      data[name] = inputEle.checked;
-    }
-  });
-  Array.from(operations).forEach((ele) => {
-    const name = ele.name;
-    data[name] = ele.checked;
-  });
-  console.log(data);
-  executeQuery(data);
-};
-
-generateBtn.addEventListener("click", generateHandler);
-
 
 
 
@@ -192,3 +114,11 @@ output.addEventListener('input', () => {
 output.addEventListener('scroll', () => {
   syncScroll({parent:output, child:preEle});
 })
+
+output.addEventListener('keydown', (e) =>{
+    let isCtrl = e.ctrlKey || e.metaKey;
+    if(isCtrl && e.key.toLowerCase() == 'x'){
+        codeHiglighter({overlay:codeOverLayEle, ele:output, lang:langSelectorEle.value});
+    }
+});
+

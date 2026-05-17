@@ -228,6 +228,7 @@ input, textarea
   border: none;
   border-radius: 0.25rem;
   color: white;
+  background-color: orangered;
 }
 .generateBtn{
   background-color: orangered;
@@ -474,18 +475,64 @@ input, textarea
 
 /* Dtype query Tab */
 
-.csvDataContainer
+.csvQueryContainer
 {
-  border: 2px solid red;
   height: 100%;
 }
 
-.dataActionContainer
+.queryTab
 {
-  margin: 5px 0;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 2fr 1fr;
 }
 
+.queryContainer{
+  display: grid ;
+  grid-template-rows: 3fr auto ;
+}
+.dataContainer
+{
+  margin-bottom: 10px;
+}
+.dataContainer textarea{
+  height: 100%;
+  width: 100%;
+}
+.queryActionsContainer
+{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.85rem 0;
+}
+.queryActionsContainer .isHeaderCont
+{
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+}
+.headerContainer
+{
+  border-top: 2px solid rgb(53, 53, 53);
+  height: 100%;
+  overflow-y: scroll;
+}
 
+.headerColContainer
+{
+  display: flex;
+  padding: 1rem;
+  padding-right: 5rem;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.5rem;
+  border: 2px solid rgb(53, 53, 53);
+}
+.headerColContainer .headerDType
+{
+  padding: 0.5rem 2rem;
+}
 
 
 /* result container */
