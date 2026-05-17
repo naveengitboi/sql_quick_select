@@ -4,6 +4,7 @@ class SqlQueryGenerator {
     this.queryEle = document.querySelector(".dataArea");
     this.generateQueryEle = document.querySelector(".generateQueryBtn");
     this.isHeaderEle = document.querySelector("#isHeader");
+    this.addOrderEle = document.querySelector("#addOrder");
     this.delimeterEle = document.querySelector(".delimeter");
     this.headerContainer = document.querySelector(".headerContainer");
 
@@ -19,6 +20,8 @@ class SqlQueryGenerator {
     this.header = [];
     this.headerMap = new Map();
     this.delimeter = this.delimeterEle.value;
+    this.addOrder = this.addOrderEle.checked;
+    this.addOrderCol = 'col_order';
 
     this.init();
   }
@@ -44,7 +47,6 @@ class SqlQueryGenerator {
 
     for (let i = 0; i < cols.length; i++) {
       let dtype = this.headerMap.get(this.header[i]);
-
       if (this.textSearch.toLowerCase().includes(dtype.toLowerCase())) {
         cols[i] = cols[i] === "" ? "NULL" : `'${cols[i]}'`;
       } else {
@@ -94,15 +96,20 @@ class SqlQueryGenerator {
     return query;
   }
 
-  headerDataTypes() {
+  headerDataTypes(){
     for (let col of this.header) {
-      this.headerMap.set(col, this.TYPES[0]);
+      if(this.addOrder && col == this.addOrderCol){
+        this.headerMap.set(col, this.TYPES[1]);
+      }else{
+        this.headerMap.set(col, this.TYPES[0]);
+      }
     }
   }
 
   updateCols({ rows } = {}) {
     let newRows = [];
-    for (let i = 0; i < rows.length; i++) {
+    let n = rows.length;
+    for (let i = 0; i < n; i++) {
       newRows.push(
         this.splitColumns({
           row: rows[i],
@@ -115,7 +122,6 @@ class SqlQueryGenerator {
   updateMapping({ rows, col, newType } = {}) {
     this.headerMap.set(col, newType);
     let modRows = this.updateCols({ rows });
-    console.log("Updated rows ", modRows);
     return modRows;
   }
 
@@ -195,15 +201,23 @@ class SqlQueryGenerator {
     return output;
   }
 
-  convertCsvData({ data, isHeader = true } = {}) {
+  convertCsvData({ data, isHeader = true} = {}) {
     let rows = data.split("\n");
-    if (isHeader) {
+    if(isHeader){
       this.header = rows[0].split(this.delimeter);
+      if(this.addOrder){
+        this.header.push(this.addOrderCol);
+      }
       this.headerDataTypes();
       rows = rows.slice(1);
-    } else {
+    }else{
       this.header = rows[0].split(this.delimeter);
       this.headerDataTypes();
+    }
+    if(this.addOrder){
+      for(let j = 0; j < rows.length; j++){
+        rows[j] += `${this.delimeter}${j+1}`;
+      }
     }
     let modRows = this.updateCols({ rows });
     this.insertMapping({
@@ -221,7 +235,7 @@ class SqlQueryGenerator {
 
     let data = this.queryEle.value;
     const isHeader = this.isHeaderEle.checked;
-
+    this.addOrder = this.addOrderEle.checked;
     this.delimeter = this.delimeterEle.value;
 
     if (this.delimeter.length === 0) {
@@ -229,13 +243,13 @@ class SqlQueryGenerator {
     }
 
     if (data.trim() === "") {
-      alert("NO Data");
+      showSnackBar({message:"Please paste data"})
       return;
     }
 
     this.outputEle.value = this.convertCsvData({
       data,
-      isHeader,
+      isHeader
     });
 
     codeHiglighter({
